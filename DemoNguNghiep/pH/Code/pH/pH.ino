@@ -1,7 +1,6 @@
 const int analogInPin = A0;
 int sensorValue = 0;
 unsigned long int avgValue;
-float b;
 int buf[10], temp;
 void setup()
 {
