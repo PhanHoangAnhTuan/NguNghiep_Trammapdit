@@ -28,7 +28,7 @@ float get_pH(){
   float pHVol,phValue;
 
   for (int i = 0; i < 10; i++){
-    if (millis() - delay10 > 10){       //delay 10ms
+    if (millis() - delay10 > 10){                 //delay 10ms
       buf[i] = analogRead(pH);
       delay10 = millis();
     }
@@ -47,7 +47,7 @@ float get_pH(){
   avgValue = 0;
   for (int i = 2; i < 8; i++)
     avgValue += buf[i];
-  if (millis() - delay20 > 20){         //delay 20ms
+  if (millis() - delay20 > 20){                   //delay 20ms
     pHVol = (float)avgValue * 5.0 / 1024 / 6;
     phValue = -5.70 * pHVol + 21.34;
     Serial.print("sensor = ");
@@ -59,7 +59,7 @@ float get_pH(){
 float get_Tem(){
   unsigned long delay5000 = 0;
   float temperatureC;
-  if (millis() - delay5000 > 5000){       //delay 5s
+  if (millis() - delay5000 > 5000){               //delay 5s
     sensors.requestTemperatures(); 
     temperatureC = sensors.getTempCByIndex(0);
     Serial.print(temperatureC);
@@ -74,7 +74,7 @@ float get_turbidity(){
   float voltage;
   if (millis() - delay500 > 500){                 //delay 500ms
     int sensorValue = analogRead(turbidity);      // read the input on analog pin 0:
-    voltage = sensorValue * (5.0 / 1024.0); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
+    voltage = sensorValue * (5.0 / 1024.0);       // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
     Serial.println(voltage);                      // print out the value you read:
     delay500 = millis();
   }
