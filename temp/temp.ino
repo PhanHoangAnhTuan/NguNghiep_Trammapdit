@@ -3,14 +3,20 @@
 #include <Wire.h>  
 #include "RTClib.h"
 #include "heltec.h"
+#include "DFRobot_ESP_PH.h"
+#include "EEPROM.h"
 
+DFRobot_ESP_PH ph;
+#define ESPADC 4096.0   //the esp Analog Digital Convertion value
+#define ESPVOLTAGE 3300 //the esp voltage supply value
+#define PH_PIN 33		//the esp gpio data pin number
+float voltage, phValue, temperature = 25;
 
-const int pH = 33;
 const int turbidity = 32;
 float pHvalue,temValue,turValue;
-bool errpH, errTem, errTur,man_hinh_chinh=true;
+bool errpH, errTem, errTur,man_hinh_chinh=true,startErr=true;
 int dem=0,i=1;
-unsigned long delay1s=0,delay2s=0,delay500=0,_delay1s=0,delay3s=0,delay5s=0,delay10=0,delay20=0,_delay200=0;
+unsigned long delay1s=0,delay500=0,_delay1s=0,delay3s=0,delay5s=0,delay10=0,delay20=0,_delay200=0;
 
 RTC_DS3231 rtc;
 char daysOfTheWeek[7][12] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
@@ -19,6 +25,7 @@ int mangAlarm2[5]={1,1,0,0,0};
 int mangAlarm3[5]={1,1,0,0,0};
 int mangAlarm4[5]={1,1,0,0,0};
 int mangAlarm5[5]={1,1,0,0,0};
+
 String setAlarm[5]={"Set Day","Set Mon","Set Hour","Set Min","Set State"};
 
 //dinh nghia chan led error
@@ -50,6 +57,8 @@ void setup() {
 
   //setup sensor
   sensors.begin();
+  EEPROM.begin(32);//needed to permit storage of calibration value in eeprom
+	ph.begin();
 
   //setup RTC
   rtc.begin(4,15);
@@ -68,45 +77,28 @@ void setup() {
   //setup button
   pinMode(LedErr, OUTPUT);
   pinMode(LedAlarm, OUTPUT);
+  digitalWrite(LedErr, LOW);
+  digitalWrite(LedAlarm, LOW);
 
   pinMode(SW_pin,INPUT);
 }
 
 float get_pH(){
-  unsigned long endTime = millis();
-  int pH_Value = 0;
-  unsigned long int avgValue;
-  int buf[10], temp_pH;
-  float pHVol,phValue;
+  static unsigned long timepoint = millis();
+	if (millis() - timepoint > 5000U) //time interval: 5s
+	{
+		timepoint = millis();
+		//voltage = rawPinValue / esp32ADC * esp32Vin
+		voltage = analogRead(PH_PIN) / ESPADC * ESPVOLTAGE; // read the voltage
+		Serial.print("voltage:");
+		Serial.println(voltage, 4);
 
-  for (int i = 0; i < 10; i++){
-    if (endTime - delay10 > 10){                 //delay 10ms
-      buf[i] = analogRead(pH);
-      delay10 = endTime;
-    }
-  }
-
-  for (int i = 0; i < 9; i++){
-    for (int j = 0; j < 10; j++){
-      if (buf[i] != buf[j]){
-        temp_pH = buf[i];
-        buf[i] = buf[j];
-        buf[j] = temp_pH;
-      }
-    }
-  }
-
-  avgValue = 0;
-  for (int i = 2; i < 8; i++)
-    avgValue += buf[i];
-  if (endTime - delay20 > 20){                   //delay 20ms
-    pHVol = (float)avgValue * 5.0 / 1024 / 6;
-    phValue = -5.70 * pHVol + 21.34;
-    Serial.print("sensor = ");
-    Serial.println(phValue);
-    delay20=endTime;
-  }
-  return pH_Value;
+		phValue = ph.readPH(voltage, temperature); // convert voltage to pH with temperature compensation
+		Serial.print("pH:");
+		Serial.println(phValue, 4);
+	}
+	ph.calibration(voltage, temperature); // calibration process by Serail CMD
+  return phValue;
 }
 
 float get_Tem(){
@@ -125,13 +117,16 @@ float get_Tem(){
 float get_turbidity(){
   unsigned long endTime = millis();
   float voltage;
-  if (endTime - delay3s > 3000){                 //delay 500ms
+  float NTU;
+  if (endTime - delay3s > 3000){                  //delay 3s
     int sensorValue = analogRead(turbidity);      // read the input on analog pin 0:
-    voltage = sensorValue * (5.0 / 1024.0);       // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
+    voltage = sensorValue * (3.3 / 4096.0);       // Convert the analog reading (which goes from 0 - 4095) to a voltage (0 - 3.3V):
     Serial.println(voltage);                      // print out the value you read:
+    NTU = (-1120.4 * voltage * voltage) + (5742.3 * voltage) - 4352.9;
+    Serial.println(NTU);
     delay3s = endTime;
   }
-  return voltage;
+  return NTU;
 }
 
 void _display(){
@@ -275,48 +270,27 @@ void _display(){
   Heltec.display->display();
   }
 
-void checkErr(){
-  if(pHvalue<5 || pHvalue>8){               //pH ngoai khoang [5;8] thi bao led
-    errpH=true;
-    unsigned long endTime = millis();
-    if(endTime-delay1s>1000){
-      digitalWrite(LedErr,HIGH);
-      delay1s=endTime;
+void checkErr() {
+  if ((pHvalue < 5) || (pHvalue > 8)) errpH = true;
+  else errpH = false;
+  if (temValue < 20 || temValue > 27) errTem = true;
+  else errTem = false;
+  if (turValue > 80)  errTur = true;
+  else errTur = false;
+  if (errpH || errTem || errTur) {
+    if (startErr == true) {
+      delay1s = millis();
+      startErr = false;
     }
-    if(endTime-delay2s>2000){
-      digitalWrite(LedErr,LOW);
-      delay2s=endTime;
-    } 
-  }
-  if(temValue<20 || temValue>27){           //nhiet do ngoai khoang [20;27] thi bao den
-    errTem=true;
     unsigned long endTime = millis();
-    if(endTime-delay1s>1000){
-      digitalWrite(LedErr,HIGH);
-      delay1s=endTime;
+    if (endTime - delay1s > 1000) {
+      if (digitalRead(LedErr) == LOW) digitalWrite(LedErr, HIGH);
+      else digitalWrite(LedErr, LOW);
+      startErr = true;
     }
-    if(endTime-delay2s>2000){
-      digitalWrite(LedErr,LOW);
-      delay2s=endTime;
-    } 
   }
-  if(turValue>80){                          //do duc lon hon 80 NTU thi bao den
-    errTur=true;
-    unsigned long endTime = millis();
-    if(endTime-delay1s>1000){
-      digitalWrite(LedErr,HIGH);
-      delay1s=endTime;
-    }
-    if(endTime-delay2s>2000){
-      digitalWrite(LedErr,LOW);
-      delay2s=endTime;
-    } 
-  }
-  if(pHvalue>=5 && pHvalue<=8 && temValue>=20 && temValue<=27 && turValue<=80){
-    errpH=false;
-    errTem=false;
-    errTur=false;
-    digitalWrite(LedErr,LOW);
+  else {
+    digitalWrite(LedErr, LOW);
   }
 }
 
@@ -336,7 +310,7 @@ int joystick(){
     if(y==0 && x>65 && x<75){       //right
       return RIGHT;
     }
-    if(!sw){               //enter
+    if(!sw){                        //enter
       return ENTER;   
     }
 }
@@ -710,7 +684,7 @@ void alarm(){
 
 void loop() {
   //pHvalue = get_pH();
-  pHvalue = 7;
+  pHvalue = 12;
   //temValue = get_Tem();
   temValue = 23;
   //turValue = get_turbidity();
