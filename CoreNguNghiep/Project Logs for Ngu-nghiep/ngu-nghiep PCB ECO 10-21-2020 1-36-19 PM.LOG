@@ -1,0 +1,14 @@
+Removed Pin From Net: NetName=NetSW1_1 Pin=SW1-1
+Removed Pin From Net: NetName=5V Pin=SW1-2
+Removed Member From Class: ClassName=Ngu-nghiep Member=R7
+Removed Member From Class: ClassName=Ngu-nghiep Member=SW1
+Change Component Designator: OldDesignator=R3 NewDesignator=R4
+Change Component Designator: OldDesignator=R6 NewDesignator=R5
+Change Component Designator: OldDesignator=R7 NewDesignator=R6
+Added Component: Designator=R3(R1/8W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=5V Pin=R3-1
+Added Pin To Net: NetName=NetSW1_1 Pin=R3-2
+Change Net Name : Old Net Name=NetSW1_1 New Net Name=NetR3_2
+Added Room: Name=Ngu-nghiep

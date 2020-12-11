@@ -5,18 +5,20 @@
 #include "heltec.h"
 #include "DFRobot_ESP_PH.h"
 #include "EEPROM.h"
+#include <Servo.h>
 
 DFRobot_ESP_PH ph;
 #define ESPADC 4096.0   //the esp Analog Digital Convertion value
 #define ESPVOLTAGE 3300 //the esp voltage supply value
 #define PH_PIN 33		//the esp gpio data pin number
+static const int servosPins[2] = {25, 26};
 float voltage, phValue, temperature = 25;
 
 const int turbidity = 32;
 float pHvalue,temValue,turValue;
-bool errpH, errTem, errTur,man_hinh_chinh=true,startErr=true;
+bool errpH, errTem, errTur,man_hinh_chinh=true,startErr=true,startServo=true;
 int dem=0,i=1;
-unsigned long delay1s=0,delay500=0,_delay1s=0,delay3s=0,delay5s=0,delay10=0,delay20=0,_delay200=0;
+unsigned long delay1s=0,delay500=0,_delay1s=0,delay3s=0,delay5s=0,delay10=0,delay20=0,_delay200=0,delayServo=0;
 
 RTC_DS3231 rtc;
 char daysOfTheWeek[7][12] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
@@ -51,9 +53,14 @@ OneWire oneWire(oneWireBus);
 // Pass our oneWire reference to Dallas Temperature sensor 
 DallasTemperature sensors(&oneWire);
 
+Servo servos[2];
+
 void setup() {
   //setup serial
   Serial.begin(9600);
+
+  servos[0].attach(servosPins[0]);
+  servos[1].attach(servosPins[1]);
 
   //setup sensor
   sensors.begin();
@@ -63,8 +70,7 @@ void setup() {
   //setup RTC
   rtc.begin(4,15);
   if (rtc.lostPower()) {
-    Serial.println("RTC lost power, let's set the time!");
-    rtc.adjust(DateTime(2020, 10, 18, 17, 50, 30));
+    rtc.adjust(DateTime(2020, 10, 18, 17, 50, 30)); //RTC lost power, setup the time again
   }
   rtc.adjust(DateTime(2020, 10, 18, 17, 50, 30));
 
@@ -90,12 +96,7 @@ float get_pH(){
 		timepoint = millis();
 		//voltage = rawPinValue / esp32ADC * esp32Vin
 		voltage = analogRead(PH_PIN) / ESPADC * ESPVOLTAGE; // read the voltage
-		Serial.print("voltage:");
-		Serial.println(voltage, 4);
-
 		phValue = ph.readPH(voltage, temperature); // convert voltage to pH with temperature compensation
-		Serial.print("pH:");
-		Serial.println(phValue, 4);
 	}
 	ph.calibration(voltage, temperature); // calibration process by Serail CMD
   return phValue;
@@ -114,16 +115,19 @@ float get_Tem(){
   return temperatureC;
 }
 
-float get_turbidity(){
+float NTU_map (float voltage, float in_min, float in_max, float out_min, float out_max){
+  return (voltage - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+int get_turbidity(){
   unsigned long endTime = millis();
   float voltage;
-  float NTU;
-  if (endTime - delay3s > 3000){                  //delay 3s
-    int sensorValue = analogRead(turbidity);      // read the input on analog pin 0:
-    voltage = sensorValue * (3.3 / 4096.0);       // Convert the analog reading (which goes from 0 - 4095) to a voltage (0 - 3.3V):
-    Serial.println(voltage);                      // print out the value you read:
-    NTU = (-1120.4 * voltage * voltage) + (5742.3 * voltage) - 4352.9;
-    Serial.println(NTU);
+  int NTU;
+  if (endTime - delay3s > 3000){                         //delay 3s
+    int sensorValue = analogRead(turbidity);             
+    float voltage1 = sensorValue * (3.3 / 4095.0);       // Convert the analog reading (which goes from 0 - 4095) to a voltage (0 - 3.3V)
+    voltage= (voltage1+0.1)/(982.0/1541.0);              // chuyen dien ap tu 3.3v len 5v     
+    NTU=NTU_map(voltage,0.1,3.6,100,0);                  // chia muc dien ap thanh don vi do duc NTU
     delay3s = endTime;
   }
   return NTU;
@@ -682,13 +686,87 @@ void alarm(){
   
 }
 
+void servo(){
+  DateTime now = rtc.now();
+  if(mangAlarm1[4]==1){
+    if(mangAlarm1[0]==now.day() && mangAlarm1[1]==now.month() && mangAlarm1[2]==now.hour() && mangAlarm1[3]==now.minute()){
+      servos[0].write(180);
+      if (startServo == true) {
+      delayServo = millis();
+      startServo = false;
+      }
+      unsigned long endTime = millis();
+      if (endTime - delayServo > 2000) {
+        servos[1].write(180);
+        startServo = true;
+      }
+    }
+  }
+  if(mangAlarm2[4]==1){
+    if(mangAlarm2[0]==now.day() && mangAlarm2[1]==now.month() && mangAlarm2[2]==now.hour() && mangAlarm2[3]==now.minute()){
+      servos[0].write(180);
+      if (startServo == true) {
+      delayServo = millis();
+      startServo = false;
+      }
+      unsigned long endTime = millis();
+      if (endTime - delayServo > 2000) {
+        servos[1].write(180);
+        startServo = true;
+      }
+    }
+  }
+  if(mangAlarm3[4]==1){
+    if(mangAlarm3[0]==now.day() && mangAlarm3[1]==now.month() && mangAlarm3[2]==now.hour() && mangAlarm3[3]==now.minute()){
+      servos[0].write(180);
+      if (startServo == true) {
+      delayServo = millis();
+      startServo = false;
+      }
+      unsigned long endTime = millis();
+      if (endTime - delayServo > 2000) {
+        servos[1].write(180);
+        startServo = true;
+      }
+    }
+  }
+  if(mangAlarm4[4]==1){
+    if(mangAlarm4[0]==now.day() && mangAlarm4[1]==now.month() && mangAlarm4[2]==now.hour() && mangAlarm4[3]==now.minute()){
+      servos[0].write(180);
+      if (startServo == true) {
+      delayServo = millis();
+      startServo = false;
+      }
+      unsigned long endTime = millis();
+      if (endTime - delayServo > 2000) {
+        servos[1].write(180);
+        startServo = true;
+      }
+    }
+  }
+  if(mangAlarm5[4]==1){
+    if(mangAlarm5[0]==now.day() && mangAlarm5[1]==now.month() && mangAlarm5[2]==now.hour() && mangAlarm5[3]==now.minute()){
+      servos[0].write(180);
+      if (startServo == true) {
+      delayServo = millis();
+      startServo = false;
+      }
+      unsigned long endTime = millis();
+      if (endTime - delayServo > 2000) {
+        servos[1].write(180);
+        startServo = true;
+      }
+    }
+  }
+}
+
 void loop() {
-  //pHvalue = get_pH();
-  pHvalue = 12;
-  //temValue = get_Tem();
-  temValue = 23;
-  //turValue = get_turbidity();
-  turValue = 50;
+  pHvalue = get_pH();
+  //pHvalue = 12;
+  temValue = get_Tem();
+  //temValue = 23;
+  turValue = get_turbidity();
+  //turValue = 50;
   checkErr();
   alarm();
   _display();  

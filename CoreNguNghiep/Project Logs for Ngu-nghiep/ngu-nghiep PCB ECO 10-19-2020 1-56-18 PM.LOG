@@ -1,0 +1,5 @@
+Added Component: Designator=R?(R1/4W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Member To Class: ClassName=Ngu-nghiep Member=Component R? 1k
+Added Room: Name=Ngu-nghiep

@@ -1,0 +1,5 @@
+Removed Pin From Net: NetName=SERVO_2 Pin=P2-3
+Removed Pin From Net: NetName=SS3 Pin=P2-5
+Added Pin To Net: NetName=SS3 Pin=P2-3
+Added Pin To Net: NetName=SERVO_2 Pin=P2-5
+Added Room: Name=Ngu-nghiep

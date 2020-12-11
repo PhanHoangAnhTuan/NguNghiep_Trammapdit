@@ -1,0 +1,31 @@
+Removed Pin From Net: NetName=GND Pin=C1-2
+Removed Pin From Net: NetName=5V Pin=C2-1
+Removed Pin From Net: NetName=GND Pin=C2-2
+Removed Pin From Net: NetName=GND Pin=C3-1
+Removed Pin From Net: NetName=GND Pin=JDC1-2
+Removed Pin From Net: NetName=GND Pin=JDC1-3
+Removed Pin From Net: NetName=GND Pin=LED1-2
+Removed Pin From Net: NetName=5V Pin=R3-1
+Removed Pin From Net: NetName=5V Pin=R4-2
+Removed Pin From Net: NetName=GND Pin=U1-2
+Removed Member From Class: ClassName=Ngu-nghiep Member=C1
+Removed Member From Class: ClassName=Ngu-nghiep Member=C2
+Removed Member From Class: ClassName=Ngu-nghiep Member=C3
+Removed Member From Class: ClassName=Ngu-nghiep Member=JDC1
+Removed Member From Class: ClassName=Ngu-nghiep Member=LED1
+Removed Member From Class: ClassName=Ngu-nghiep Member=R6
+Removed Member From Class: ClassName=Ngu-nghiep Member=U2
+Change Component Designator: OldDesignator=P1 NewDesignator=P2
+Change Component Designator: OldDesignator=P2 NewDesignator=P3
+Change Component Designator: OldDesignator=P3 NewDesignator=P4
+Change Component Designator: OldDesignator=R5 NewDesignator=R3
+Change Component Designator: OldDesignator=R6 NewDesignator=R4
+Change Component Designator: OldDesignator=U2 NewDesignator=U1
+Added Component: Designator=P1(JST-XH_B4B-XH-A)
+Add component. Clean all parameters for all variants
+Added Pin To Net: NetName=5V Pin=P1-1
+Added Pin To Net: NetName=5V Pin=P1-2
+Added Pin To Net: NetName=GND Pin=P1-3
+Added Pin To Net: NetName=GND Pin=P1-4
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P4 Header 10
+Added Room: Name=Ngu-nghiep

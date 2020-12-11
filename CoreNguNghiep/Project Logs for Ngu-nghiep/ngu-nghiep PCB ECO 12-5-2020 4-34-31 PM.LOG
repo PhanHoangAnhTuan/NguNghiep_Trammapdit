@@ -1,0 +1,132 @@
+Added Component: Designator=P1(JST-XH_B2B-XH-A)
+Add component. Clean all parameters for all variants
+Added Component: Designator=P2(JST-XH_B2B-XH-A)
+Add component. Clean all parameters for all variants
+Added Component: Designator=P6(JST-XH_B4B-XH-A)
+Add component. Clean all parameters for all variants
+Added Component: Designator=P7(JST-XH_B3B-XH-A)
+Add component. Clean all parameters for all variants
+Added Component: Designator=P8(JST-XH_B3B-XH-A)
+Add component. Clean all parameters for all variants
+Added Component: Designator=P9(JST-XH_B3B-XH-A)
+Add component. Clean all parameters for all variants
+Added Component: Designator=P10(JST-XH_B5B-XH-A)
+Add component. Clean all parameters for all variants
+Added Component: Designator=P11(JST-XH_B3B-XH-A)
+Add component. Clean all parameters for all variants
+Added Component: Designator=P12(JST-XH_B3B-XH-A)
+Add component. Clean all parameters for all variants
+Added Component: Designator=P13(JST-XH_B4B-XH-A)
+Add component. Clean all parameters for all variants
+Added Component: Designator=R1(R1/8W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R2(R1/8W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R3(R1/8W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R4(R1/8W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R5(R1/8W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R6(R1/8W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R7(R1/8W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R8(R1/8W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R9(R1/8W)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=U1(ESP32_WFK_Heltec)
+Add component. Clean all parameters for all variants
+Added Pin To Net: NetName=NetP1_1 Pin=P1-1
+Added Pin To Net: NetName=GND Pin=P1-2
+Added Pin To Net: NetName=NetP2_1 Pin=P2-1
+Added Pin To Net: NetName=GND Pin=P2-2
+Added Pin To Net: NetName=+5 Pin=P6-1
+Added Pin To Net: NetName=+5 Pin=P6-2
+Added Pin To Net: NetName=GND Pin=P6-3
+Added Pin To Net: NetName=GND Pin=P6-4
+Added Pin To Net: NetName=+5 Pin=P7-1
+Added Pin To Net: NetName=Tur_pin Pin=P7-2
+Added Pin To Net: NetName=GND Pin=P7-3
+Added Pin To Net: NetName=pH_pin Pin=P8-1
+Added Pin To Net: NetName=+5 Pin=P8-2
+Added Pin To Net: NetName=GND Pin=P8-3
+Added Pin To Net: NetName=Tem_pin Pin=P9-1
+Added Pin To Net: NetName=+5 Pin=P9-2
+Added Pin To Net: NetName=GND Pin=P9-3
+Added Pin To Net: NetName=GND Pin=P10-1
+Added Pin To Net: NetName=3V3_Joystick Pin=P10-2
+Added Pin To Net: NetName=VRx Pin=P10-3
+Added Pin To Net: NetName=VRy Pin=P10-4
+Added Pin To Net: NetName=SW Pin=P10-5
+Added Pin To Net: NetName=SERVO_2 Pin=P11-1
+Added Pin To Net: NetName=+5 Pin=P11-2
+Added Pin To Net: NetName=GND Pin=P11-3
+Added Pin To Net: NetName=SERVO_1 Pin=P12-1
+Added Pin To Net: NetName=+5 Pin=P12-2
+Added Pin To Net: NetName=GND Pin=P12-3
+Added Pin To Net: NetName=SDA Pin=P13-3
+Added Pin To Net: NetName=SCL Pin=P13-4
+Added Pin To Net: NetName=SS2 Pin=R1-1
+Added Pin To Net: NetName=Tur_pin Pin=R1-2
+Added Pin To Net: NetName=NetP2_1 Pin=R2-1
+Added Pin To Net: NetName=Alarm Pin=R2-2
+Added Pin To Net: NetName=NetP1_1 Pin=R3-1
+Added Pin To Net: NetName=Error Pin=R3-2
+Added Pin To Net: NetName=3V3_Joystick Pin=R4-1
+Added Pin To Net: NetName=+5 Pin=R4-2
+Added Pin To Net: NetName=GND Pin=R5-1
+Added Pin To Net: NetName=SS2 Pin=R5-2
+Added Pin To Net: NetName=GND Pin=R6-1
+Added Pin To Net: NetName=3V3_Joystick Pin=R6-2
+Added Pin To Net: NetName=+5 Pin=R7-1
+Added Pin To Net: NetName=SW Pin=R7-2
+Added Pin To Net: NetName=SDA Pin=R8-1
+Added Pin To Net: NetName=+5 Pin=R8-2
+Added Pin To Net: NetName=SCL Pin=R9-1
+Added Pin To Net: NetName=+5 Pin=R9-2
+Added Pin To Net: NetName=GND Pin=U1-1
+Added Pin To Net: NetName=+5 Pin=U1-2
+Added Pin To Net: NetName=SCL Pin=U1-7
+Added Pin To Net: NetName=SDA Pin=U1-10
+Added Pin To Net: NetName=SW Pin=U1-22
+Added Pin To Net: NetName=VRy Pin=U1-23
+Added Pin To Net: NetName=VRx Pin=U1-24
+Added Pin To Net: NetName=SS2 Pin=U1-25
+Added Pin To Net: NetName=pH_pin Pin=U1-26
+Added Pin To Net: NetName=SERVO_2 Pin=U1-27
+Added Pin To Net: NetName=SERVO_1 Pin=U1-28
+Added Pin To Net: NetName=Tem_pin Pin=U1-29
+Added Pin To Net: NetName=Error Pin=U1-30
+Added Pin To Net: NetName=Alarm Pin=U1-31
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P1 Connector
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P2 Connector
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P6 Nguon
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P7 Connector
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P8 Connector
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P9 Connector
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P10 Joystick
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P11 Connector
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P12 Connector
+Added Member To Class: ClassName=Ngu-nghiep Member=Component P13 RTC
+Added Member To Class: ClassName=Ngu-nghiep Member=Component R1 5k6
+Added Member To Class: ClassName=Ngu-nghiep Member=Component R2 1k
+Added Member To Class: ClassName=Ngu-nghiep Member=Component R3 1k
+Added Member To Class: ClassName=Ngu-nghiep Member=Component R4 3k
+Added Member To Class: ClassName=Ngu-nghiep Member=Component R5 10k
+Added Member To Class: ClassName=Ngu-nghiep Member=Component R6 4k7
+Added Member To Class: ClassName=Ngu-nghiep Member=Component R7 10K
+Added Member To Class: ClassName=Ngu-nghiep Member=Component R8 4k7
+Added Member To Class: ClassName=Ngu-nghiep Member=Component R9 4k7
+Added Member To Class: ClassName=Ngu-nghiep Member=Component U1 ESP32_heltec
+Added Room: Name=Ngu-nghiep
